@@ -2,13 +2,17 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
-const User = require('./user'); // Import the User model
+const User = require('./userModel'); // Import the User model
 
 const DailyMood = sequelize.define('DailyMood', {
   id: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+    autoIncrement:true,
+    primaryKey:true
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
   mood: {
     type: DataTypes.ENUM('happy', 'sad', 'neutral', 'angry', 'stressed'),
