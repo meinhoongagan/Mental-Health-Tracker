@@ -1,8 +1,8 @@
 // init.js
 
 const sequelize = require('./db/db');
-const User = require('./models/user');
-const DailyMood = require('./models/dailymood');
+const User = require('./models/userModel');
+const DailyMood = require('./models/dailymoodModel');
 
 // Sync all models with the database
 sequelize.sync({ alter: true }) // 'alter: true' updates tables without dropping them

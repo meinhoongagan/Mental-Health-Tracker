@@ -9,8 +9,42 @@ const DailyMoodSchema = require('../schemas/dailymoodSchema')
 router.post('/dailyMood', async (req, res) => {
   try {
     DailyMoodSchema.validateAsync(req.body);
-    const { userId, mood, description, notes } = req.body;
-    const dailyMood = await DailyMood.create({ userId, mood, description, notes });
+    const {
+      userId,
+      mood,
+      description,
+      notes,
+      sleepHours,
+      exercise,
+      stressLevel,
+      energyLevel,
+      journalEntry,
+      medicationTaken,
+      copingMechanisms,
+      dietQuality,
+      externalEvents,
+      tags,
+      severity,
+      triggers,
+      professionalSupport
+    } = req.body;
+    const dailyMood = await DailyMood.create({ userId,
+      mood,
+      description,
+      notes,
+      sleepHours,
+      exercise,
+      stressLevel,
+      energyLevel,
+      journalEntry,
+      medicationTaken,
+      copingMechanisms,
+      dietQuality,
+      externalEvents,
+      tags,
+      severity,
+      triggers,
+      professionalSupport });
     res.status(201).json(dailyMood);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -27,9 +61,17 @@ router.get('/users/:userId/dailyMood', async (req, res) => {
   }
 });
 
-router.delete('/users/:id/dailyMood',async(req,res)=>{
+router.delete('/dailyMood/:id',async(req,res)=>{
   try{
     const deletedMoods = await DailyMood.destroy({ where: { id: req.params.id } });
+    res.status(200).json({ message: `Deleted ${deletedMoods} records.` });
+  }catch(err){
+    res.status(500).json({ error: err.message });
+  }
+})
+router.delete('/users/:userId/dailyMood',async(req,res)=>{
+  try{
+    const deletedMoods = await DailyMood.destroy({ where: { userId: req.params.userId } });
     res.status(200).json({ message: `Deleted ${deletedMoods} records.` });
   }catch(err){
     res.status(500).json({ error: err.message });
