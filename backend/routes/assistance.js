@@ -180,26 +180,46 @@ router.get("/assist/:userId/exercises", async (req, res) => {
 });
 
 //Route for Chat
-router.post("/assist/chat",async (req,res)=>{
-  try{
-    const model = createModel;
-    const prompt = req.body.message;
-    const result = await getResult(model, prompt);
-    const response = result.response;
-    return response.candidates[0].content.parts[0].text
-  }catch(err){
-    res.status(500).json(err);
-  }
+// Route for Chat
+router.post("/assist/chat", async (req, res) => {
+  try {
+    const model = createModel(); // If `createModel` is a function, invoke it
+    
+    const prompt = `
+    Context: ${req.body.context || "No prior context available"}
+    User Message: ${req.body.message}
+    
+    Instructions:
+    Respond to the user's message based on the context provided. If there is relevant context, consider it to give a meaningful and coherent response. If no context is provided or it is irrelevant, respond solely to the user's message. Keep your response concise and clear.
+    `;
+    
+    if (!prompt) {
+      return res.status(400).json({ error: "Message prompt is required" });
+    }
 
-})
+    const result = await getResult(model, prompt);
+
+    // Safely access response structure with checks
+    const response = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!response) {
+      return res.status(500).json({ error: "Unexpected response format from model" });
+    }
+    res.status(200).json({ message: response });
+  } catch (err) {
+    console.error("Chat route error:", err); // Log the error for debugging
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 // Function for GoogleGenAi
 function createModel() {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API);
-  return (model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }));
+  return genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 }
 async function getResult(model, prompt) {
-  return (result = await model.generateContent(prompt));
+  return await model.generateContent(prompt);
 }
 
 // Function to get Data
