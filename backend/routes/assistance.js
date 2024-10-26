@@ -168,8 +168,6 @@ router.get("/assist/:userId/exercises", async (req, res) => {
   
     const result = await getResult(model, prompt);
     const response = result.response;
-    console.log(response);
-    console.log(result);
     
     const formattedResponse = {
       suggestExercises: response.candidates[0].content.parts[0].text,
@@ -180,6 +178,20 @@ router.get("/assist/:userId/exercises", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+//Route for Chat
+router.post("/assist/chat",async (req,res)=>{
+  try{
+    const model = createModel;
+    const prompt = req.body.message;
+    const result = await getResult(model, prompt);
+    const response = result.response;
+    return response.candidates[0].content.parts[0].text
+  }catch(err){
+    res.status(500).json(err);
+  }
+
+})
 
 // Function for GoogleGenAi
 function createModel() {
@@ -252,3 +264,5 @@ function calculateStressLevel(data) {
 }
 
 module.exports = router;
+
+
