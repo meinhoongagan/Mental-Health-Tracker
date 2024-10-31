@@ -180,7 +180,6 @@ router.get("/assist/:userId/exercises", async (req, res) => {
 });
 
 //Route for Chat
-// Route for Chat
 router.post("/assist/chat", async (req, res) => {
   try {
     const model = createModel(); // If `createModel` is a function, invoke it

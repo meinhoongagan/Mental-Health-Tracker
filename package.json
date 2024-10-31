@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@google/generative-ai": "^0.21.0",
-    "joi": "^17.13.3"
-  }
-}
