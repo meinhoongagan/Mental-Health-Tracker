@@ -27,19 +27,22 @@ router.get("/assist/:userId", async (req, res) => {
     Create a brief, clear report for the user that highlights key insights and offers gentle suggestions for improvement where needed. Keep the tone supportive and constructive.
     `;
 
-    const result = getResult(model, prompt);
+    const result = await getResult(model, prompt);
+    
     const response = result.response;
+    
 
     // Format the response for the client
     const formattedResponse = {
-      report: response.candidates[0].content.parts[0].text,
+      report: response?.candidates?.[0]?.content?.parts?.[0]?.text || "Report data is unavailable",
       generatedAt: new Date().toISOString(),
-      dataPoints: data.length,
+      dataPoints: data ? data.length : 0,
       periodCovered: {
-        start: data[data.length - 1].createdAt,
-        end: data[0].createdAt,
+        start: data && data.length ? data[data.length - 1].createdAt : null,
+        end: data && data.length ? data[0].createdAt : null,
       },
     };
+    
 
     res.status(200).json(formattedResponse);
   } catch (err) {
@@ -54,7 +57,7 @@ router.get("/assist/:userId", async (req, res) => {
 // Add a route to get summary statistics
 router.get("/assist/:userId/stats", async (req, res) => {
   try {
-    const data = getData(req.params.userId);
+    const data = await getData(req.params.userId);
 
     validateData(data);
 
