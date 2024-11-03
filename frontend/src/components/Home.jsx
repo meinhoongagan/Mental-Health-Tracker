@@ -1,5 +1,5 @@
 import React from 'react'
-import MentalHealthReportCard from "./Card"
+import MentalHealthReportCard from "./MentalHealthReportCard"
 const Home = () => {
   return (
    <MentalHealthReportCard/>
