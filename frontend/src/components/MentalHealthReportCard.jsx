@@ -9,7 +9,7 @@ const MentalHealthReportCard = () => {
   const [loading, setLoading] = useState(false);
 
   // Access userId from Redux store
-  const userId = useSelector((state) => state.loginReducer.userId);
+  const userId = sessionStorage.getItem('userId');
 
   const fetchReport = async () => {
     if (!userId) {

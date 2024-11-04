@@ -1,8 +1,10 @@
 import React from 'react'
-import MentalHealthReportCard from "./MentalHealthReportCard"
+import DailyMoodForm from './DailyMood'
 const Home = () => {
   return (
-   <MentalHealthReportCard/>
+    <>
+    <DailyMoodForm/>
+    </>
   )
 }
 

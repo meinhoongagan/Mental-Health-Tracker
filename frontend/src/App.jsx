@@ -4,6 +4,7 @@ import Layout from "./Layout";
 import SignUp from "./SignUp";
 import LoginForm from "./components/Login";
 import Home from "./components/Home";
+import Reports from "./components/Reports";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/report" element={<Reports />} />
         </Routes>
       </Layout>
     </Router>

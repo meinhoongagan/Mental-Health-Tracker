@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -26,7 +26,8 @@ const LoginForm = () => {
 
             console.log('Login Response:', response.data);
             // Assuming response.data contains the userId
-            dispatch(changeId(response.data.userId)); // Store userId in Redux store
+            // dispatch(changeId(response.data.userId)); // Store userId in Redux store
+            sessionStorage.setItem('userId', JSON.stringify(response.data.userId));
             navigate('/'); // Redirect to home page after successful login
         } catch (error) {
             console.error('Error during login:', error.response ? error.response.data : error.message);
